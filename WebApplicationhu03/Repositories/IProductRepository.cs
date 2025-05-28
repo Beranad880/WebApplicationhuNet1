@@ -2,13 +2,14 @@
 
 namespace WebApplicationhu03.Repositories
 {
-    public interface IProductRepository{
-        IEnumerable<Product> GetAll();
-        Product GetById(int id);
-        void Add(Product product);
+    public interface IProductRepository
+    {
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(int id);
+        Task AddAsync(Product product);
         void Update(Product product);
         void Delete(int id);
-        void Save();
+        Task SaveAsync();
     }
 }
 

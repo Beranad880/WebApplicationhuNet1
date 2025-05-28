@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplicationhu03.Repositories;
-using WebApplicationhu03.Models; // pokud máš Product v tomto namespace
+using WebApplicationhu03.Models;
+using System.Threading.Tasks;
 
 namespace WebApplicationhu03.Controllers
 {
@@ -16,58 +17,58 @@ namespace WebApplicationhu03.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var products = _repo.GetAll();
+            var products = await _repo.GetAllAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var product = _repo.GetById(id);
+            var product = await _repo.GetByIdAsync(id);
             if (product == null)
                 return NotFound();
             return Ok(product);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Product product)
+        public async Task<IActionResult> Create([FromBody] Product product)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _repo.Add(product);
-            _repo.Save();
+            await _repo.AddAsync(product);
+            await _repo.SaveAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Product updatedProduct)
+        public async Task<IActionResult> Update(int id, [FromBody] Product updatedProduct)
         {
             if (id != updatedProduct.Id || !ModelState.IsValid)
                 return BadRequest();
 
-            var existingProduct = _repo.GetById(id);
+            var existingProduct = await _repo.GetByIdAsync(id);
             if (existingProduct == null)
                 return NotFound();
 
             _repo.Update(updatedProduct);
-            _repo.Save();
+            await _repo.SaveAsync();
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var existingProduct = _repo.GetById(id);
+            var existingProduct = await _repo.GetByIdAsync(id);
             if (existingProduct == null)
                 return NotFound();
 
             _repo.Delete(id);
-            _repo.Save();
+            await _repo.SaveAsync();
 
             return NoContent();
         }

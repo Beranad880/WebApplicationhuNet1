@@ -1,4 +1,5 @@
-﻿using WebApplicationhu03.Controllers;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplicationhu03.Controllers;
 using WebApplicationhu03.Models;
 
 namespace WebApplicationhu03.Repositories
@@ -6,7 +7,6 @@ namespace WebApplicationhu03.Repositories
     public class ProductRepository : IProductRepository
 
     {
-
         private readonly AppDbContext _context;
 
         public ProductRepository(AppDbContext context)
@@ -14,23 +14,38 @@ namespace WebApplicationhu03.Repositories
             _context = context;
         }
 
-        public IEnumerable<Product> GetAll() => _context.Products.ToList();
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _context.Products.ToListAsync();
+        }
 
-        public Product GetById(int id) => _context.Products.Find(id);
+        public async Task<Product> GetByIdAsync(int id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
 
-        public void Add(Product product) => _context.Products.Add(product);
+        public async Task AddAsync(Product product)
+        {
+            await _context.Products.AddAsync(product);
+        }
 
-        public void Update(Product product) => _context.Products.Update(product);
+        public void Update(Product product)
+        {
+            _context.Products.Update(product);
+        }
 
         public void Delete(int id)
         {
             var product = _context.Products.Find(id);
-            if (product != null) _context.Products.Remove(product);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+            }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
