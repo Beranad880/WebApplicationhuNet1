@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplicationhu03.Controllers
+namespace WebApplicationhu03.Models
 {
     public class Product
     {
