@@ -3,7 +3,7 @@ using WebApplicationhu03.Repositories;
 using WebApplicationhu03.Models;
 using System.Threading.Tasks;
 
-namespace WebApplicationhu03.Controllers
+namespace WebApplicationhu03.Models
 {
     [ApiController]
     [Route("api/products")]

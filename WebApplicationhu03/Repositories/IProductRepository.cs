@@ -1,4 +1,4 @@
-﻿using WebApplicationhu03.Controllers;
+﻿using WebApplicationhu03.Models;
 
 namespace WebApplicationhu03.Repositories
 {
